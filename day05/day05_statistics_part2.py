@@ -82,3 +82,26 @@ t_stat, p_value = stats.ttest_ind(class1, class3)
 print(f'\nt-statistics: {t_stat*100:.4f}')
 print(f'p-value: {p_value:.4f}')
 print(f'Conclusion: {'Significant Difference' if p_value < 0.05 else 'Probably random chance'}')
+
+
+# p-value explanation - 3 examples
+print('\n------ p-value explanation ------')
+# Example 1 - Highly Significant (Class 1 vs Class 3)
+t1, p1 = stats.ttest_ind(class1, class3)
+print('Class 1 vs Class 3')
+print(f'p-value = {p1:.6f} -> {'Significant' if p1 < 0.05 else 'Not Significant'}')
+
+# Example 2 - Class 1 vs Class 2
+class2 = df_clean[df_clean['Pclass']==2]['Survived']
+t2, p2 = stats.ttest_ind(class1, class2)
+print('Class 1 vs Class 2')
+print(f'Survival rate: {class1.mean()*100:.1f}% vs {class2.mean()*100:.1f}%')
+print(f'p-value = {p2:.6f} -> {'Significant' if p2 < 0.05 else 'Not Significant'}')
+
+# Example 3 - Random Comparison (Should not be significant)
+np.random.seed(42)
+random_group_a = np.random.randint(0, 2, 100)
+random_group_b = np.random.randint(0, 2, 100)
+t3,p3 = stats.ttest_ind(random_group_a, random_group_b)
+print('Random group A vs B')
+print(f'p-value: {p3:.6f} -> {'Significant' if p3 < 0.05 else 'Not Significant(Expected!)'}')
