@@ -25,3 +25,22 @@ print(f'Not_Survived: {not_survived}')
 print(f'P_Survived: {p_survived}')
 print(f'P_Not_Survived: {p_not_survived}')
 print(f'P(S)+P(NS): {p_survived+p_not_survived: .1f}')
+
+# Conditional Probability
+# P(Survived | Female) Probability of female survival
+females = df_clean[df_clean['Sex'] == 'female']
+males = df_clean[df_clean['Sex'] == 'male']
+p_survived_females = females['Survived'].mean()
+p_survived_males = males['Survived'].mean()
+
+print(f'P(Survived | Female): {p_survived_females:.4f} -> {p_survived_females*100:.1f}%')
+print(f'P(Survived | Male): {p_survived_males:.4f} -> {p_survived_males*100:.1f}%')
+
+# Probability of Survival by class
+for cls in [1,2,3]:
+    subset = df_clean[df_clean['Pclass'] == cls]
+    p = subset['Survived'].mean()
+    print(f'P(Survived | Class {cls}): {p:.4f} -> {p*100:.1f}%')
+    females_by_class = females[females['Pclass'] == cls]
+    p_survived_females_by_class = females_by_class['Survived'].mean()
+    print(f'P(Survived | Female | Class {cls}): {p_survived_females_by_class:.4f} -> {p_survived_females_by_class*100:.1f}%')
