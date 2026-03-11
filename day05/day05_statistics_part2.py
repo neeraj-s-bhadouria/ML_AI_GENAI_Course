@@ -65,3 +65,20 @@ direct_result = len(df_clean[(df_clean['Survived']==1) & (df_clean['Sex']=='fema
 print(f'\nBayes Result: {p_female_given_survived:.4f} -> {p_female_given_survived*100:.1f}')
 print(f'Direct Result: {direct_result:.4f} -> {direct_result*100:.1f}%')
 print(f'Match? {abs(p_female_given_survived - direct_result) < 0.0001}')
+
+
+# A/B Testing
+# Question - Is the survival rate of class 1 and class 3 significantly different or is it just random chances?
+class1 = df_clean[df_clean['Pclass']==1]['Survived']
+class3 = df_clean[df_clean['Pclass']==3]['Survived']
+print(f'-------- A/B Testing: Class 1 vs class 3 Survival ---------')
+print(f'\nClass 1 - n={len(class1)}, survival rate: {class1.mean()*100:.1f}%')
+print(f'Class 3 - n={len(class3)}, survival rate: {class3.mean()*100:.1f}%')
+print(f'Difference: {(class1.mean() - class3.mean())*100:.1f}%')
+
+# t-test  - It checks if the difference is real or just random chances
+t_stat, p_value = stats.ttest_ind(class1, class3)
+
+print(f'\nt-statistics: {t_stat*100:.4f}')
+print(f'p-value: {p_value:.4f}')
+print(f'Conclusion: {'Significant Difference' if p_value < 0.05 else 'Probably random chance'}')
