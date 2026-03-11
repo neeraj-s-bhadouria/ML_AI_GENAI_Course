@@ -7,7 +7,7 @@ from scipy.ndimage import label
 from scipy.stats import alpha
 
 # Loading the data and cleaning it
-df = pd.read_csv('../day3/data/train.csv')
+df = pd.read_csv('../day03/data/train.csv')
 df_clean = df.copy()
 df_clean = df_clean.drop(columns=['Cabin'])
 df_clean['Age'] = df_clean['Age'].fillna(df_clean['Age'].median())
