@@ -44,3 +44,24 @@ for cls in [1,2,3]:
     females_by_class = females[females['Pclass'] == cls]
     p_survived_females_by_class = females_by_class['Survived'].mean()
     print(f'P(Survived | Female | Class {cls}): {p_survived_females_by_class:.4f} -> {p_survived_females_by_class*100:.1f}%')
+
+
+# Bayes Theorem
+# P(A|B) = P(B|A) * P(A) / P(B)
+# Real question - If someone survived, what are the chances that they were female?
+# P(Female | Survived) = P(Survived | Female) * P(Female) / P(Survived)
+p_female = len(females)/ total
+p_male = len(males) / total
+print(f'P(Female): {p_female:.4f} -> {p_female*100:.1f}%')
+print(f'P(Male): {p_male:.4f} -> {p_male*100:.1f}%')
+print(f'P(Survived | Female): {p_survived_females:4f}%')
+print(f'P(Survived): {p_survived:.4f}')
+
+# Applying bayes formula
+p_female_given_survived = (p_survived_females * p_female) / p_survived
+# Verifying by direct calculation
+direct_result = len(df_clean[(df_clean['Survived']==1) & (df_clean['Sex']=='female')]) / survived
+
+print(f'\nBayes Result: {p_female_given_survived:.4f} -> {p_female_given_survived*100:.1f}')
+print(f'Direct Result: {direct_result:.4f} -> {direct_result*100:.1f}%')
+print(f'Match? {abs(p_female_given_survived - direct_result) < 0.0001}')
