@@ -105,3 +105,26 @@ random_group_b = np.random.randint(0, 2, 100)
 t3,p3 = stats.ttest_ind(random_group_a, random_group_b)
 print('Random group A vs B')
 print(f'p-value: {p3:.6f} -> {'Significant' if p3 < 0.05 else 'Not Significant(Expected!)'}')
+
+
+# Confidence interval
+class1_mean = class1.mean()
+class1_se = stats.sem(class1)                   # standard error
+ci = stats.t.interval(
+    confidence=0.95,
+    df=len(class1)-1,
+    loc=class1_mean,
+    scale=class1_se
+)
+print('----- Confidence Interval-----')
+print(f'Class 1 Survival Rate: {class1_mean*100:.1f}%')
+print(f'95% CI : ({ci[0]*100:.1f}%, {ci[1]*100:.1f}%)')
+print(f'It means we are 95% sure that true survival rate is between {ci[0]*100:.1f}% & {ci[1]*100:.1f}')
+
+# class 3 Confidence Interval
+class3_mean = class3.mean()
+class3_se = stats.sem(class3)
+ci3 = stats.t.interval(
+    0.95, df=len(class3)-1, loc=class3_mean, scale=class3_se)
+print(f'\nClass 3 Survival rate : {class3_mean*100:.1f}%')
+print(f'95% CI : ({ci3[0]*100:.1f}%, {ci3[1]*100:.1f}%)')
